@@ -53,18 +53,18 @@ Asteroid.prototype = {
             this.clones[ i ].kill();
 
             this.clones[ i ].animations.add( 'ast_0_0', [ 0 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_0_1', [ 7 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_0_2', [ 1 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_0_3', [ 8 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_0_4', [ 2 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_0_5', [ 9 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_0_6', [ 3 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_1_0', [ 10 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_1_1', [ 4 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_1_2', [ 11 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_1_3', [ 5 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_1_4', [ 12 ], 60, true );
-            this.clones[ i ].animations.add( 'ast_1_5', [ 6 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_0_1', [ 2 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_0_2', [ 4 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_0_3', [ 6 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_0_4', [ 8 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_0_5', [ 10 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_0_6', [ 12 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_1_0', [ 1 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_1_1', [ 3 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_1_2', [ 5 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_1_3', [ 7 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_1_4', [ 9 ], 60, true );
+            this.clones[ i ].animations.add( 'ast_1_5', [ 11 ], 60, true );
             this.clones[ i ].animations.add( 'ast_1_6', [ 13 ], 60, true );
 
             // Enable physics
@@ -87,8 +87,8 @@ Asteroid.prototype = {
         // setting size based on the first sprite's size
         this.setWidth( this.clones[ this.CENTER ].width );
         this.setHeight( this.clones[ this.CENTER ].height );
-        this.baseXSpeed = 1;
-        this.baseYSpeed = 3;
+        this.baseXSpeed = 0.25;
+        this.baseYSpeed = 1.0;
 
         //this.wrap();
     },

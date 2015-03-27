@@ -10,6 +10,8 @@ Sroids.Game = function( game )
     Sroids.LARGE_ASTEROID_SCORE = 100;
     Sroids.MEDIUM_ASTEROID_SCORE = 200;
     Sroids.SMALL_ASTEROID_SCORE = 400;
+    Sroids.NUM_SIZES = 2; // 1 for only large, 2 for large & medium, 3 for all
+    Sroids.SPEED_INC = 1.0; // speed increase factor for each level
     Sroids.level = 0;
     Sroids.highscore = 0;
 
@@ -176,7 +178,7 @@ Sroids.Game.prototype =
             };
 
             // speed everything up each level
-            asteroid.incBaseSpeed( level * 5, level * 5 );
+            asteroid.incBaseSpeed( level * Sroids.SPEED_INC, level * Sroids.SPEED_INC );
 
             var baseX = asteroid.getBaseXSpeed();
             var baseY = asteroid.getBaseYSpeed();
@@ -531,13 +533,13 @@ Sroids.Game.prototype =
             h_bias_b = 'right';
         }
 
-        if( asteroid.size === 'large' )
+        if( asteroid.size === 'large'  && Sroids.NUM_SIZES>1)
         {
 
             this.spawnAsteroid( asteroid.getX(), asteroid.getY(), 'medium', h_bias_a, v_bias_a, asteroid.getType() );
             this.spawnAsteroid( asteroid.getX(), asteroid.getY(), 'medium', h_bias_b, v_bias_b, asteroid.getType() );
         }
-        else if( asteroid.size === 'medium' )
+        else if( asteroid.size === 'medium' && Sroids.NUM_SIZES>2)
         {
             this.spawnAsteroid( asteroid.getX(), asteroid.getY(), 'small', h_bias_a, v_bias_a, asteroid.getType() );
             this.spawnAsteroid( asteroid.getX(), asteroid.getY(), 'small', h_bias_b, v_bias_b, asteroid.getType() );
