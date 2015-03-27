@@ -26,6 +26,7 @@ Player.prototype =
         this.MAX_ROT = 270;
         this.ACCELERATION = 300; // pixels/second/second
         this.MAX_SPEED = 550; // pixels/second
+        this.INVINCIBLE_MS = 3000; // When the player is first created, she's invincible for some time
 
         //  Our bullet group
         this.bullets = this.game.add.group();
@@ -151,8 +152,8 @@ Player.prototype =
                     this.sprite.visible = true;
             }
 
-            // this controls how long you're invicible for (2 seconds atm)
-            if( this.game.time.now - this.invincibleTimer > 2000 )
+            // this controls how long you're invicible
+            if( this.game.time.now - this.invincibleTimer > this.INVINCIBLE_MS )
             {
                 this.invincibleTimer = this.game.time.now;
                 this.invincible = false;
@@ -272,7 +273,7 @@ Player.prototype =
         if(currentBullet.y < 0 ) currentBullet.y = this.game.height;
     },
 
-    fireBullet: function()
+    fireBullet: function( name )
     {
         //  To avoid them being allowed to fire too fast we set a time limit
         if( this.game.time.now > this.bulletTime )
@@ -288,6 +289,7 @@ Player.prototype =
                 this.bullet.body.velocity.y = this.sprite.body.velocity.y + ( Math.sin( this.sprite.rotation ) * 400 ); //( this.sprite.body.velocity.y + 400 );
                 this.bulletTime = this.game.time.now + 20;
                 this.bullet.lifespan = 1000;
+                this.bullet.name = name;
             }
         }
     },

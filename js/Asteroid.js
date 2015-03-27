@@ -527,65 +527,46 @@ Asteroid.prototype = {
     },
 
     render: function(){
+        // Uncomment the following to see the collision rectangles
     /*
         var color = 'rgba(255,0,0,0.40)';
 
-        for( var i = 0; i < this.NUM_CLONES; i++ )
-        {
-            switch( i )
-            {
+        for( var i = 0; i < this.NUM_CLONES; i++ ){
+            switch( i ){
                 case this.CENTER:
-                {
                     color = 'rgba( 255, 255, 255, 0.4 )';
-                }
                 break;
 
                 case this.NORTH:
-                {
                     color = 'rgba( 255, 0, 0, 0.4 )';
-                }
                 break;
 
                 case this.NORTHEAST:
-                {
                     color = 'rgba( 0, 255, 0, 0.4 )';
-                }
                 break;
 
                 case this.EAST:
-                {
                     color = 'rgba( 0, 0, 255, 0.4 )';
-                }
                 break;
 
                 case this.SOUTHEAST:
-                {
                     color = 'rgba( 255, 255, 0, 0.4 )';
-                }
                 break;
 
                 case this.SOUTH:
-                {
                     color = 'rgba( 255, 0, 255, 0.4 )';
-                }
                 break;
 
                 case this.SOUTHWEST:
-                {
                     color = 'rgba( 0, 255, 255, 0.4 )';
-                }
                 break;
 
                 case this.WEST:
-                {
                     color = 'rgba( 255, 192, 63, 0.4 )';
-                }
                 break;
 
                 case this.NORTHWEST:
-                {
                     color = 'rgba( 127, 127, 127, 0.4 )';
-                }
                 break;
 
             }  // end switch

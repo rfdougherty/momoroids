@@ -95,6 +95,8 @@ Sroids.Game.prototype =
             }
         }
         this.world.sendToBack(bg);
+        // this.game.plugins.add('Juicy');
+        this.juicy = this.game.plugins.add(new Phaser.Plugin.Juicy(this));
 
     },
 
@@ -341,13 +343,13 @@ Sroids.Game.prototype =
                     if( Sroids.player.firekey === null )
                     {
                         Sroids.player.firekey = game.input.keyboard.addKey( Phaser.Keyboard.A );
-                        Sroids.player.firekey.onDown.add( function(key) { Sroids.player.fireBullet() }, this );
+                        Sroids.player.firekey.onDown.add( function(key) { Sroids.player.fireBullet( '0' ) }, this );
                     }
 
                     if( Sroids.player.altFirekey === null )
                     {
                         Sroids.player.altFirekey = game.input.keyboard.addKey( Phaser.Keyboard.S );
-                        Sroids.player.altFirekey.onDown.add( function(key) { Sroids.player.fireBullet() }, this );
+                        Sroids.player.altFirekey.onDown.add( function(key) { Sroids.player.fireBullet( '1' ) }, this );
                     }
 
                 }
@@ -407,18 +409,24 @@ Sroids.Game.prototype =
                 asteroidHit = false;
 
                 asteroid.update();
-                var type = parseInt(asteroid.getType().split('_')[1])
+                var asteroidType = parseInt(asteroid.getType().split('_')[1]);
                 for( var j = 0; j < Sroids.player.bullets.length; j++ )
                 {
                     var bullet = Sroids.player.bullets.getAt( j );
                     if( bullet != null && bullet.exists === true )
                     {
+                        var bulletType = parseInt(bullet.name);
                         if( asteroid.collide( bullet ) === true )
                         {
                             bullet.kill();
                             Sroids.numAsteroids--;
-                            if(type==0) var scale=1;
-                            else var scale=10;
+                            // ***RFD WORK HERE***
+                            if(asteroidType==bulletType){
+                                var scale=1;
+                            }else{
+                                this.juicy.shake();
+                                var scale=0;
+                            }
                             if( asteroid.size === 'large' )
                                 itemScore = Sroids.LARGE_ASTEROID_SCORE*scale;
                             else if( asteroid.size === 'medium' )
