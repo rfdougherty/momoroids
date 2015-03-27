@@ -12,6 +12,7 @@ Sroids.Game = function( game )
     Sroids.SMALL_ASTEROID_SCORE = 400;
     Sroids.NUM_SIZES = 2; // 1 for only large, 2 for large & medium, 3 for all
     Sroids.SPEED_INC = 1.0; // speed increase factor for each level
+    Sroids.KILL_BAD_HITS = false; // flag- if true, bad hits still destroy the momoroid
     Sroids.level = 0;
     Sroids.highscore = 0;
 
@@ -99,6 +100,10 @@ Sroids.Game.prototype =
         this.world.sendToBack(bg);
         // this.game.plugins.add('Juicy');
         this.juicy = this.game.plugins.add(new Phaser.Plugin.Juicy(this));
+        this.badScreenFlash = this.juicy.createScreenFlash('red');
+        this.add.existing(this.badScreenFlash);
+        this.goodScreenFlash = this.juicy.createScreenFlash('green');
+        this.add.existing(this.goodScreenFlash);
 
     },
 
@@ -421,13 +426,21 @@ Sroids.Game.prototype =
                         if( asteroid.collide( bullet ) === true )
                         {
                             bullet.kill();
-                            Sroids.numAsteroids--;
                             // ***RFD WORK HERE***
                             if(asteroidType==bulletType){
-                                var scale=1;
+                                var scale = 1.0;
+                                this.goodScreenFlash.flash(0.3, 20);
                             }else{
                                 this.juicy.shake();
-                                var scale=0;
+                                this.badScreenFlash.flash(0.5, 80);
+                                var scale = -0.5;
+                            }
+                            if( asteroidType==bulletType || Sroids.KILL_BAD_HITS ){
+                                asteroid.explode( 150 );
+                                asteroid.kill();
+                                Sroids.numAsteroids--;
+                                this.manageAsteroidSpawns( asteroid );
+                                asteroidHit = true;
                             }
                             if( asteroid.size === 'large' )
                                 itemScore = Sroids.LARGE_ASTEROID_SCORE*scale;
@@ -435,9 +448,6 @@ Sroids.Game.prototype =
                                 itemScore = Sroids.MEDIUM_ASTEROID_SCORE*scale
                             else if( asteroid.size === 'small' )
                                 itemScore = Sroids.SMALL_ASTEROID_SCORE*scale;
-
-                            this.manageAsteroidSpawns( asteroid );
-                            asteroidHit = true;
                             break;
                         }
                     }

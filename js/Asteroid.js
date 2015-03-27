@@ -283,15 +283,15 @@ Asteroid.prototype = {
             var clone = this.clones[ i ];
             if( clone.visible === true ){
                 if( this.game.physics.arcade.overlap( clone, sprite ) === true ){
-                    this.explode( 150 );
+                    //this.explode( 150 );
                     cloneHit = true;
                     break;
                 }
             }
         }
 
-        if( cloneHit === true )
-            this.kill();
+        //if( cloneHit === true )
+        //    this.kill();
 
         return cloneHit;
     },
