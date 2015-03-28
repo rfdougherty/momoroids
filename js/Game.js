@@ -16,6 +16,8 @@ Sroids.Game = function( game )
     Sroids.level = 0;
     Sroids.highscore = 0;
 
+    Sroids.condNum = 1;
+
     Sroids.gameOverScreenText = null;
     Sroids.currentTime = 0;
     Sroids.levelScreenText = null;
@@ -55,6 +57,9 @@ Sroids.Game.prototype =
         Sroids.splash = this.game.add.sprite( 0, 0, 'splash' );
         Sroids.splash.x = ( this.game.width - Sroids.splash.width ) / 2;
         Sroids.splash.y = ( this.game.height - Sroids.splash.height ) / 2;
+        //b1 = game.add.button(game.world.centerX - 95, 400, 'C1-start',
+        //        function(){Sroids.condNum=1;Sroids.splash.kill();}, this, 2, 1, 0);
+
         Sroids.splash.kill();
 
 
@@ -73,7 +78,7 @@ Sroids.Game.prototype =
             Sroids.asteroids[ i ] = new Asteroid( game );
             if( Sroids.asteroids[ i ] != null )
             {
-                Sroids.asteroids[ i ].create( 0, 0 );
+                Sroids.asteroids[ i ].create( Sroids.condNum, 0, 0 );
 
                 // each color gets an even break
                 switch(  i % 14 ) //this.game.rnd.integerInRange( 1, 5 ) )
@@ -300,8 +305,7 @@ Sroids.Game.prototype =
                 {
                     //this.game.input.keyboard.isDown( Phaser.Keyboard.SPACEBAR )
                     if( this.game.input.keyboard.isDown( Phaser.Keyboard.A )
-                        || this.game.input.keyboard.isDown( Phaser.Keyboard.S ))
-                    {
+                        || this.game.input.keyboard.isDown( Phaser.Keyboard.S ) ){
                         Sroids.splash.kill();
                         Sroids.gameState = 'new game';
                     }

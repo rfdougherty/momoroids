@@ -267,10 +267,15 @@ Player.prototype =
 
     wrapAround: function( currentBullet )
     {
-        if( currentBullet.x > this.game.width ) currentBullet.x = 0;
-        if( currentBullet.x < 0 )currentBullet.x = this.game.width;
-        if( currentBullet.y > this.game.height ) currentBullet.y = 0;
-        if(currentBullet.y < 0 ) currentBullet.y = this.game.height;
+        //if( currentBullet.x > this.game.width ) currentBullet.x = 0;
+        //if( currentBullet.x < 0 )currentBullet.x = this.game.width;
+        //if( currentBullet.y > this.game.height ) currentBullet.y = 0;
+        //if(currentBullet.y < 0 ) currentBullet.y = this.game.height;
+        if( currentBullet.x > this.game.width
+           || currentBullet.x < 0
+           || currentBullet.y > this.game.height
+           || currentBullet.y < 0 )
+            currentBullet.kill();
     },
 
     fireBullet: function( name )
@@ -288,7 +293,7 @@ Player.prototype =
                 this.bullet.body.velocity.x = this.sprite.body.velocity.x + ( Math.cos( this.sprite.rotation ) * 400 );  //( this.sprite.body.velocity.x + 400 );
                 this.bullet.body.velocity.y = this.sprite.body.velocity.y + ( Math.sin( this.sprite.rotation ) * 400 ); //( this.sprite.body.velocity.y + 400 );
                 this.bulletTime = this.game.time.now + 20;
-                this.bullet.lifespan = 1000;
+                this.bullet.lifespan = 1500;
                 this.bullet.name = name;
             }
         }

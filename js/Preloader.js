@@ -20,9 +20,15 @@ Sroids.Preloader.prototype =
         this.game.load.spritesheet('ship', 'images/ship.png', 32, 32);
         this.game.load.image('bullet', 'images/bullet.png');
 
-        // load asteroid graphics
-        this.game.load.spritesheet( 'ast_sheet', 'images/C3.png', 128, 128 );
+        //this.game.load.spritesheet('C1-start', 'images/C1-start.png', 401, 143);
 
+        // load asteroid graphics
+        this.game.load.spritesheet( 'C1', 'images/C1.png', 128, 128 );
+        this.game.load.spritesheet( 'C2', 'images/C2.png', 128, 128 );
+        this.game.load.spritesheet( 'C3', 'images/C3.png', 128, 128 );
+        this.game.load.spritesheet( 'C4', 'images/C4.png', 128, 128 );
+
+        this.game.load.bitmapFont('menu_font', 'images/desyrel-pink.png', 'images/desyrel-pink.xml');
     },
 
     create: function()
@@ -33,6 +39,6 @@ Sroids.Preloader.prototype =
         Sroids.bmd_sml = this.game.make.bitmapData( 16, 16 );
         Sroids.bmd_sml.copy( 'explode_large', 0, 0, 64, 64, 0, 0, 16, 16 );
 
-        this.state.start( 'Game' );
+        this.state.start( 'Menu' );
     }
 };

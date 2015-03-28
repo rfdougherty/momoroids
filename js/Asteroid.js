@@ -47,9 +47,9 @@ Asteroid = function( game ){
 };
 
 Asteroid.prototype = {
-    create: function( x, y ){
+    create: function( condNum, x, y ){
         for( var i = 0; i < this.NUM_CLONES; i++ ){
-            this.clones[ i ] = this.game.add.sprite( x, y, 'ast_sheet' );
+            this.clones[ i ] = this.game.add.sprite( x, y, 'C'+condNum );
             this.clones[ i ].kill();
 
             this.clones[ i ].animations.add( 'ast_0_0', [ 0 ], 60, true );
