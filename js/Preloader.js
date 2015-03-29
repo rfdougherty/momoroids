@@ -13,7 +13,7 @@ Sroids.Preloader.prototype =
         this.preloadBar = this.add.sprite( ( Sroids.GAME_WIDTH - 720 ) / 2, ( Sroids.GAME_HEIGHT-32 ) / 2, 'preloaderBar' );
         this.load.setPreloadSprite( this.preloadBar );
 
-        this.game.load.image( 'splash', 'images/splash_square.png' );
+        this.game.load.image( 'logo', 'images/logo.png' );
         this.load.image('space', 'images/deep-space.jpg');
         this.game.load.spritesheet( 'explosion', 'images/explode.png', 64, 64 );
         this.game.load.image( 'explode_large', 'images/explosion.png' );

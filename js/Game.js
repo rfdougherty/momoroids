@@ -37,6 +37,7 @@ Sroids.Game = function( game )
 
     Sroids.numAsteroids = 0;
     Sroids.numStartingAsteroids = 8;
+    Sroids.server = 'momoroids_update.php'
 }
 
 Sroids.Game.prototype =
@@ -54,14 +55,16 @@ Sroids.Game.prototype =
         //this.accelText = this.game.add.text( 20, 40, '', { font: '16px Arial', fill: '#ffffff' } );
 
         // splash / title screen
-        Sroids.splash = this.game.add.sprite( 0, 0, 'splash' );
+        Sroids.splash = this.game.add.sprite( 0, 0, 'logo' );
         Sroids.splash.x = ( this.game.width - Sroids.splash.width ) / 2;
         Sroids.splash.y = ( this.game.height - Sroids.splash.height ) / 2;
-        //b1 = game.add.button(game.world.centerX - 95, 400, 'C1-start',
-        //        function(){Sroids.condNum=1;Sroids.splash.kill();}, this, 2, 1, 0);
+
+        var style = { font: "48px Orbitron", fill: "#007799", wordWrap: true, wordWrapWidth: this.game.width-100, align: "center" };
+        Sroids.splash_text = this.game.add.text(this.game.width/2, this.game.height*.75, "Hit the fire button to start", style);
+        Sroids.splash_text.anchor.set(0.5);
+        Sroids.splash_text.setShadow(3,3,'rgba(20,20,20,1)',7);
 
         Sroids.splash.kill();
-
 
         // Essentially uses the explode graphic
         // made a pool and then simply display them at the right time
@@ -299,6 +302,7 @@ Sroids.Game.prototype =
                 if( !Sroids.splash.exists )
                 {
                     Sroids.splash.revive();
+                    Sroids.splash_text.visible = true;
                 }
 
                 if( Sroids.splash.exists )
@@ -307,6 +311,7 @@ Sroids.Game.prototype =
                     if( this.game.input.keyboard.isDown( Phaser.Keyboard.A )
                         || this.game.input.keyboard.isDown( Phaser.Keyboard.S ) ){
                         Sroids.splash.kill();
+                        Sroids.splash_text.visible = false;
                         Sroids.gameState = 'new game';
                     }
                 }
@@ -375,10 +380,10 @@ Sroids.Game.prototype =
                 this.initAsteroids( Sroids.level );
 
                 // hud stuff.
-                Sroids.livesText = this.game.add.text( 20, this.game.height - 40, '', { font: '16px Arial', fill: '#ffffff' } );
-                Sroids.scoreText = this.game.add.text( 20, 20, '', { font: '16px Arial', fill: '#ffffff' } );
-                Sroids.levelText = this.game.add.text( this.game.width - 100, this.game.height - 40, '', { font: '16px Arial', fill: '#ffffff' } );
-                Sroids.highscoreText = this.game.add.text( this.game.width - 100, 20, '', { font: '16px Arial', fill: '#ffffff' } );
+                Sroids.livesText = this.game.add.text( 20, this.game.height - 40, '', { font: '16px Orbitron', fill: '#ffffff' } );
+                Sroids.scoreText = this.game.add.text( 20, 20, '', { font: '16px Orbitron', fill: '#ffffff' } );
+                Sroids.levelText = this.game.add.text( this.game.width - 100, this.game.height - 40, '', { font: '16px Orbitron', fill: '#ffffff' } );
+                Sroids.highscoreText = this.game.add.text( this.game.width - 130, 20, '', { font: '16px Orbitron', fill: '#ffffff' } );
             break;
             case 'play level':
             {
@@ -567,7 +572,7 @@ Sroids.Game.prototype =
         Sroids.gameState = 'level screen';
         Sroids.level++;
 
-        var style = { font: "96px Arial", fill: "#ff0000", align: "center" };
+        var style = { font: "96px Orbitron", fill: "#0088ff", align: "center" };
         Sroids.levelScreenText = this.game.add.text( this.game.world.centerX, this.game.world.centerY,  'Level: ' + Sroids.level, style);
         Sroids.levelScreenText.anchor.set(0.5);
     },
@@ -634,5 +639,13 @@ Sroids.Game.prototype =
             if( Sroids.asteroids[ i ].doesExist() === true )
                 Sroids.asteroids[ i ].render();
         }
+    },
+
+    send_data: function(data_str){
+        var data = new FormData();
+        data.append("data" , data_str);
+        var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
+        xhr.open( 'post', Sroids.server, true );
+        xhr.send(data);
     }
 }
