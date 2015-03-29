@@ -17,6 +17,8 @@ Sroids.Game = function( game )
     Sroids.highscore = 0;
 
     Sroids.condNum = 1;
+    Sroids.username = 'anonymous';
+    Sroids.version = '1.0';
 
     Sroids.gameOverScreenText = null;
     Sroids.currentTime = 0;
@@ -37,7 +39,7 @@ Sroids.Game = function( game )
 
     Sroids.numAsteroids = 0;
     Sroids.numStartingAsteroids = 8;
-    Sroids.server = 'momoroids_update.php'
+    Sroids.server = 'http://web.stanford.edu/~moqiant/cgi-bin/momoroids_data.php'
 }
 
 Sroids.Game.prototype =
@@ -332,11 +334,9 @@ Sroids.Game.prototype =
                     // how far you can increment the base speed to
                     asteroid.setBaseXLimit( 50 );
                     asteroid.setBaseYLimit( 50 );
-
                 }
-
                 Sroids.numAsteroids = 0;
-
+                this.send_data('startgame');
                 this.startNewLevel();
             break;
 
@@ -593,6 +593,8 @@ Sroids.Game.prototype =
         for( var i = 0; i < Sroids.MAX_ASTEROIDS; i++ )
             Sroids.asteroids[ i ].kill();
 
+        this.send_data('endlevel');
+
         if( Sroids.player.livesLeft < 0 )
             this.endGame();
         else
@@ -605,6 +607,8 @@ Sroids.Game.prototype =
     {
         Sroids.currentTime = this.game.time.now;
         Sroids.gameState = 'game over screen';
+
+        this.send_data('endgame');
 
         var style = { font: "80px Arial", fill: "#ffbb00", align: "center" };
         Sroids.gameOverScreenText = this.game.add.text( this.game.world.centerX, this.game.world.centerY,  'GAME OVER\nFinal Score\n*\n' + Sroids.score, style );
@@ -641,9 +645,14 @@ Sroids.Game.prototype =
         }
     },
 
-    send_data: function(data_str){
+    send_data: function(stat_str){
         var data = new FormData();
-        data.append("data" , data_str);
+        data.append('username',Sroids.username);
+        data.append('cat', String(Sroids.condNum));
+        data.append('level', String(Sroids.level));
+        data.append('score', String(Sroids.score));
+        data.append('version', Sroids.version);
+        data.append("status" , stat_str);
         var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
         xhr.open( 'post', Sroids.server, true );
         xhr.send(data);
