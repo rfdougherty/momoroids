@@ -17,7 +17,7 @@ Sroids.Game = function( game )
     Sroids.highscore = 0;
 
     Sroids.condNum = 1;
-    Sroids.username = 'anonymous';
+    Sroids.username = document.getElementById('username').value;
     Sroids.version = '1.0';
 
     Sroids.gameOverScreenText = null;
@@ -384,6 +384,8 @@ Sroids.Game.prototype =
                 Sroids.scoreText = this.game.add.text( 20, 20, '', { font: '16px Orbitron', fill: '#ffffff' } );
                 Sroids.levelText = this.game.add.text( this.game.width - 100, this.game.height - 40, '', { font: '16px Orbitron', fill: '#ffffff' } );
                 Sroids.highscoreText = this.game.add.text( this.game.width - 130, 20, '', { font: '16px Orbitron', fill: '#ffffff' } );
+                Sroids.usernameText = this.game.add.text( this.game.width/2, this.game.height-40, '', { font: '16px Orbitron', fill: '#ffffff' } );
+                Sroids.usernameText.anchor.set(0.5);
             break;
             case 'play level':
             {
@@ -393,6 +395,9 @@ Sroids.Game.prototype =
                     Sroids.livesText.setText( Sroids.player.livesLeft + ' lives left' );
                     Sroids.scoreText.setText( 'Score: ' + Sroids.score );
                     Sroids.levelText.setText( 'Level: ' + Sroids.level );
+                    document.getElementById('username').disabled = true;
+                    Sroids.username = document.getElementById('username').value;
+                    Sroids.usernameText.setText( 'User: ' + Sroids.username );
                     Sroids.highscoreText.setText( 'High: ' + Sroids.highscore );
 
                     Sroids.player.update();
@@ -443,6 +448,8 @@ Sroids.Game.prototype =
                                 this.juicy.shake();
                                 this.badScreenFlash.flash(0.5, 80);
                                 var scale = -0.5;
+                                this.juicy.jelly(asteroid.clones[asteroid.CENTER], 0.3,
+                                        Math.random()*100+100, asteroid.clones[asteroid.CENTER].scale);
                             }
                             if( asteroidType==bulletType || Sroids.KILL_BAD_HITS ){
                                 asteroid.explode( 150 );
@@ -575,6 +582,7 @@ Sroids.Game.prototype =
         var style = { font: "96px Orbitron", fill: "#0088ff", align: "center" };
         Sroids.levelScreenText = this.game.add.text( this.game.world.centerX, this.game.world.centerY,  'Level: ' + Sroids.level, style);
         Sroids.levelScreenText.anchor.set(0.5);
+        Sroids.levelScreenText.setShadow(3,3,'rgba(20,20,20,1)',7);
     },
 
     endLevel: function()

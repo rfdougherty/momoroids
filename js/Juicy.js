@@ -442,9 +442,9 @@ Phaser.Plugin.Juicy.prototype.update = function () {
 };
 
 // for browserify compatibility
-if(module && module.exports) {
-  module.exports = Phaser.Plugin.Juicy;
-}
+//if(module && module.exports) {
+//  module.exports = Phaser.Plugin.Juicy;
+//}
 
 
 

@@ -27,8 +27,6 @@ Sroids.Preloader.prototype =
         this.game.load.spritesheet( 'C2', 'images/C2.png', 128, 128 );
         this.game.load.spritesheet( 'C3', 'images/C3.png', 128, 128 );
         this.game.load.spritesheet( 'C4', 'images/C4.png', 128, 128 );
-
-        this.game.load.bitmapFont('menu_font', 'images/desyrel-pink.png', 'images/desyrel-pink.xml');
     },
 
     create: function()

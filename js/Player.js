@@ -292,7 +292,7 @@ Player.prototype =
                 this.bullet.reset( this.sprite.x, this.sprite.y );
                 this.bullet.body.velocity.x = this.sprite.body.velocity.x + ( Math.cos( this.sprite.rotation ) * 400 );  //( this.sprite.body.velocity.x + 400 );
                 this.bullet.body.velocity.y = this.sprite.body.velocity.y + ( Math.sin( this.sprite.rotation ) * 400 ); //( this.sprite.body.velocity.y + 400 );
-                this.bulletTime = this.game.time.now + 20;
+                this.bulletTime = this.game.time.now + 400;
                 this.bullet.lifespan = 1500;
                 this.bullet.name = name;
             }

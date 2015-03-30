@@ -31,16 +31,40 @@ if(isset($_POST['username'])){
     $score = SQLite3::escapeString(isset($_POST['score']) ? $_POST['score'] : 'na');
     $version = SQLite3::escapeString(isset($_POST['version']) ? $_POST['version'] : 'na');
     $status = SQLite3::escapeString(isset($_POST['status']) ? $_POST['status'] : 'na');
-   
+
     $sql = "INSERT INTO user_data (timestamp,ip,username,category,level,score,version,status) VALUES('$ts','$ip','$name','$cat','$level','$score','$version','$status')";
     $db->exec($sql) or die("Can not insert user data: {$db->lastErrorMsg()}");
+
 }else{
+    # GET request-- show the data
     $stat = SQLite3::escapeString(isset($_REQUEST['stat']) ? $_REQUEST['stat'] : 'endgame');
-    if($stat=='all') $stat='%';
-    echo "Leader board:\n<p>";
-    $result = $db->query("SELECT datetime(timestamp, 'unixepoch') AS date,username,ip,category,level,score,status FROM user_data WHERE status LIKE '{$stat}' ORDER BY score DESC") or die("Select query failed: {$db->lastErrorMsg()}");
-    while ($row = $result->fetchArray()){
-        echo "{$row['date']}\t{$row['ip']}\t{$row['username']}\t{$row['category']}\t{$row['level']}\t{$row['score']}\t{$row['status']}<br>\n";
+    if($stat=='all'){
+        $sql = "SELECT datetime(timestamp,'unixepoch','localtime') "
+              ."AS date,username,ip,category,level,score,status "
+              ."FROM user_data ORDER BY ip,timestamp";
+        $result = $db->query($sql) or die("Select query failed: {$db->lastErrorMsg()}");
+        while ($row = $result->fetchArray()){
+            echo "{$row['date']}\t{$row['ip']}\t{$row['username']}\t{$row['category']}\t"
+                ."{$row['level']}\t{$row['score']}\t{$row['status']}<br>\n";
+        }
+    }else{
+        echo "<H2>Momoroids leader board:</H2>\n";
+        $sql = "SELECT date(timestamp,'unixepoch','localtime') "
+              ."AS date,username,category,level,score "
+              ."FROM user_data WHERE status LIKE '{$stat}' ORDER BY score DESC";
+        $result = $db->query($sql) or die("Select query failed: {$db->lastErrorMsg()}");
+        echo "<table cellpadding='5'>\n";
+        echo "<tr align='center'><th>Date</th><th>Name</th><th>Momoroid</th><th>Level</th><th>Score</th></th>\n";
+        while ($row = $result->fetchArray()){
+            echo "<tr align='center'>";
+            echo "<td>{$row['date']}</td>"
+                ."<td>{$row['username']}</td>"
+                ."<td>{$row['category']}</td>"
+                ."<td>{$row['level']}</td>"
+                ."<td>{$row['score']}</td>\n";
+            echo "</tr>";
+        }
+        echo "</table>\n";
     }
 }
 ?>
