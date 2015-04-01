@@ -601,12 +601,13 @@ Sroids.Game.prototype =
         for( var i = 0; i < Sroids.MAX_ASTEROIDS; i++ )
             Sroids.asteroids[ i ].kill();
 
-        this.send_data('endlevel');
-
-        if( Sroids.player.livesLeft < 0 )
+        if( Sroids.player.livesLeft < 0 ){
+            this.send_data('endgame');
             this.endGame();
-        else
+        }else{
+            this.send_data('endlevel');
             this.startNewLevel();
+        }
 
     },
 
@@ -615,8 +616,6 @@ Sroids.Game.prototype =
     {
         Sroids.currentTime = this.game.time.now;
         Sroids.gameState = 'game over screen';
-
-        this.send_data('endgame');
 
         var style = { font: "80px Arial", fill: "#ffbb00", align: "center" };
         Sroids.gameOverScreenText = this.game.add.text( this.game.world.centerX, this.game.world.centerY,  'GAME OVER\nFinal Score\n*\n' + Sroids.score, style );
