@@ -48,7 +48,7 @@ if(isset($_POST['username'])){
                 ."{$row['level']}\t{$row['score']}\t{$row['status']}<br>\n";
         }
     }else{
-        echo "<H2>Momoroids leader board:</H2>\n";
+        echo "<H2>Momoroids Leaderboard:</H2>\n";
         $sql = "SELECT date(timestamp,'unixepoch','localtime') "
               ."AS date,username,category,level,score "
               ."FROM user_data WHERE status LIKE '{$stat}' ORDER BY score DESC";
