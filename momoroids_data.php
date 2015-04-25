@@ -56,9 +56,11 @@ if(isset($_POST['username'])){
         echo "<table cellpadding='5'>\n";
         echo "<tr align='center'><th>Date</th><th>Name</th><th>Momoroid</th><th>Level</th><th>Score</th></th>\n";
         while ($row = $result->fetchArray()){
+            if($row['username']=='') $username = 'anonymous';
+            else $username = $row['username'];
             echo "<tr align='center'>";
             echo "<td>{$row['date']}</td>"
-                ."<td>{$row['username']}</td>"
+                ."<td>{$username}</td>"
                 ."<td>{$row['category']}</td>"
                 ."<td>{$row['level']}</td>"
                 ."<td>{$row['score']}</td>\n";

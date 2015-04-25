@@ -77,6 +77,7 @@ def montage(vol, ncols=None):
     return(im)
 
 out_sz = (128,128)
+intensity_adjustment = 80
 ncat = 4
 nobj = 2
 nview = 7
@@ -95,7 +96,7 @@ for cat in xrange(0,ncat):
         for obj in xrange(0,nobj):
             alpha = ndimage.gaussian_filter(np.atleast_3d(mask[(view,obj)].astype(np.float)*255), sigma=1)
             #alpha[np.atleast_3d(mask)] = 255
-            img = np.append(img[(view,obj)], alpha, axis=2)
+            img = np.append(img[(view,obj)]+intensity_adjustment, alpha, axis=2)
             img = autocrop(img[(view,obj)], all_mask, pad=3)
             s = np.min(np.array(out_sz,dtype=float) / img.shape[0:1])
             out_array[...,(view*nobj)+obj] = ndimage.zoom(img, (s, s, 1)).round().astype(np.uint8)
